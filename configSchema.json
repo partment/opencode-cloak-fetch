@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/partment/opencode-cloak-fetch/main/configSchema.json",
+  "title": "opencode-cloak-fetch configuration",
+  "description": "Configuration schema for the opencode-cloak-fetch OpenCode plugin.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON schema URL for editor integration."
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enables or disables this plugin's webfetch implementation."
+    },
+    "defaultFormat": {
+      "type": "string",
+      "enum": ["markdown", "text", "html"],
+      "default": "markdown",
+      "description": "Output format used when the tool call does not provide format."
+    },
+    "maxChars": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 120000,
+      "description": "Maximum output size before truncation."
+    },
+    "timeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "navigationSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120,
+          "default": 30,
+          "description": "Page navigation timeout in seconds."
+        },
+        "launchMs": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 20000,
+          "description": "Browser launch timeout in milliseconds."
+        },
+        "closeMs": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 2000,
+          "description": "Browser close timeout in milliseconds."
+        },
+        "extractMs": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 5000,
+          "description": "Timeout for HTML or text extraction after navigation."
+        },
+        "postLoadDelayMs": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 750,
+          "description": "Delay after domcontentloaded before extracting content."
+        }
+      }
+    },
+    "cloakbrowser": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "headless": {
+          "type": "boolean",
+          "default": true,
+          "description": "Runs Chromium in headless mode."
+        },
+        "proxy": {
+          "description": "Proxy configuration passed to CloakBrowser.",
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["server"],
+              "properties": {
+                "server": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Proxy server URL."
+                },
+                "bypass": {
+                  "type": "string",
+                  "description": "Proxy bypass list."
+                },
+                "username": {
+                  "type": "string",
+                  "description": "Proxy username."
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Proxy password."
+                }
+              }
+            }
+          ]
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional Chromium arguments."
+        },
+        "stealthArgs": {
+          "type": "boolean",
+          "description": "Enables CloakBrowser stealth argument handling when set."
+        },
+        "timezone": {
+          "type": "string",
+          "description": "Browser timezone, such as Asia/Taipei."
+        },
+        "locale": {
+          "type": "string",
+          "description": "Browser locale, such as zh-TW or en-US."
+        },
+        "geoip": {
+          "type": "boolean",
+          "description": "Enables CloakBrowser geo-IP behavior when supported by CloakBrowser."
+        },
+        "humanize": {
+          "type": "boolean",
+          "description": "Enables CloakBrowser humanization behavior when supported by CloakBrowser."
+        },
+        "humanPreset": {
+          "type": "string",
+          "enum": ["default", "careful"],
+          "description": "Humanization preset."
+        },
+        "humanConfig": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Additional humanization settings passed to CloakBrowser."
+        },
+        "launchOptions": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Extra Puppeteer launch options. The plugin still sets a bounded launch timeout."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "autoUpdate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allows update checks when binaryPath and downloadUrl are not set."
+        },
+        "binaryPath": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "description": "Uses an existing browser binary instead of the cached CloakBrowser binary."
+        },
+        "cacheDir": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "description": "CloakBrowser cache directory. Also stores the plugin's preparation lock."
+        },
+        "downloadUrl": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "description": "Custom browser binary download URL."
+        },
+        "skipChecksum": {
+          "type": "boolean",
+          "default": false,
+          "description": "Skips checksum verification when CloakBrowser supports it."
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "includeTitle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Adds the page title to markdown and text output."
+        },
+        "includeSource": {
+          "type": "boolean",
+          "default": true,
+          "description": "Adds the final page URL to markdown and text output."
+        },
+        "truncateMarker": {
+          "type": "string",
+          "default": "[truncated]",
+          "description": "Marker appended after truncated output."
+        }
+      }
+    }
+  }
+}
