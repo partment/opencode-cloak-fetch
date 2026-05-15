@@ -3,6 +3,7 @@ import type { Browser } from "puppeteer-core"
 import { cloakBrowserBinaryPreparer } from "./cloakbrowser/binary-preparer.js"
 import { cloakBrowserConsoleBridge } from "./cloakbrowser/console-bridge.js"
 import { cloakBrowserEnvironment } from "./cloakbrowser/environment.js"
+import { waitForChallengeCompletion } from "./challenges.js"
 import type { FetchOptions } from "./fetch-events.js"
 import { FetchOutputRenderer } from "./fetch-output.js"
 import type { CloakbrowserConfig, WebFetchFormat } from "./schema.js"
@@ -62,7 +63,7 @@ export async function fetchWithCloakBrowser(args: FetchArgs, config: Cloakbrowse
     page.setDefaultNavigationTimeout(timeoutMs)
     page.setDefaultTimeout(Math.min(config.timeout.extractMs, timeoutMs))
 
-    await withTimeout(
+    const navigationResponse = await withTimeout(
       page.goto(args.url, {
         waitUntil: "domcontentloaded",
         timeout: timeoutMs,
@@ -70,6 +71,8 @@ export async function fetchWithCloakBrowser(args: FetchArgs, config: Cloakbrowse
       timeoutMs,
       "page navigation",
     )
+
+    await waitForChallengeCompletion(page, config, options, { navigationResponse })
 
     if (config.timeout.postLoadDelayMs > 0) await sleep(config.timeout.postLoadDelayMs)
 

@@ -67,6 +67,7 @@ If neither `cloakfetch.json` nor `cloakfetch.jsonc` exists in the global OpenCod
     "launchMs": 20000,
     "closeMs": 2000,
     "extractMs": 5000,
+    "challengeWaitMs": 20000,
     "postLoadDelayMs": 750
   },
   "cloakbrowser": {
@@ -110,7 +111,7 @@ If neither `cloakfetch.json` nor `cloakfetch.jsonc` exists in the global OpenCod
 | `enabled` | `boolean` | `true` | Enables or disables this plugin's `webfetch` implementation. |
 | `defaultFormat` | `string` | `"markdown"` | Output format used when the tool call does not provide `format`. Allowed: `markdown`, `text`, `html`. |
 | `maxChars` | `integer` | `120000` | Maximum output size before truncation. `(>=1)` |
-| `timeout` | `object` | see below | Timeout controls for browser launch, navigation, extraction, and close. |
+| `timeout` | `object` | see below | Timeout controls for browser launch, navigation, challenge waiting, extraction, and close. |
 | `cloakbrowser` | `object` | see below | Options passed to `cloakbrowser/puppeteer` launch. |
 | `environment` | `object` | see below | Environment variables used by CloakBrowser binary management. |
 | `output` | `object` | see below | Formatting controls for text and markdown output. |
@@ -123,6 +124,7 @@ If neither `cloakfetch.json` nor `cloakfetch.jsonc` exists in the global OpenCod
 | `launchMs` | `integer` | `20000` | Browser launch timeout in milliseconds. `(>=1)` |
 | `closeMs` | `integer` | `2000` | Browser close timeout in milliseconds. Close errors are ignored after this timeout. `(>=1)` |
 | `extractMs` | `integer` | `5000` | Timeout for HTML or text extraction after navigation. `(>=1)` |
+| `challengeWaitMs` | `integer` | `20000` | Maximum time to wait for detected anti-bot challenge pages to complete before extracting content. Set to `0` to disable. `(>=0)` |
 | `postLoadDelayMs` | `integer` | `750` | Delay after `domcontentloaded` before extracting content. `(>=0)` |
 
 ### `cloakbrowser`

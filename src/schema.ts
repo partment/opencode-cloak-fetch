@@ -13,6 +13,7 @@ export const CloakbrowserConfigSchema = z
         launchMs: z.number().int().positive().default(20_000),
         closeMs: z.number().int().positive().default(2_000),
         extractMs: z.number().int().positive().default(5_000),
+        challengeWaitMs: z.number().int().nonnegative().default(20_000),
         postLoadDelayMs: z.number().int().nonnegative().default(750),
       })
       .default({
@@ -20,6 +21,7 @@ export const CloakbrowserConfigSchema = z
         launchMs: 20_000,
         closeMs: 2_000,
         extractMs: 5_000,
+        challengeWaitMs: 20_000,
         postLoadDelayMs: 750,
       }),
     cloakbrowser: z
@@ -83,6 +85,7 @@ export const CloakbrowserConfigSchema = z
       launchMs: 20_000,
       closeMs: 2_000,
       extractMs: 5_000,
+      challengeWaitMs: 20_000,
       postLoadDelayMs: 750,
     },
     cloakbrowser: {

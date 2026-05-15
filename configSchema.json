@@ -57,6 +57,12 @@
           "default": 5000,
           "description": "Timeout for HTML or text extraction after navigation."
         },
+        "challengeWaitMs": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 20000,
+          "description": "Maximum time to wait for detected anti-bot challenge pages to complete before extracting content. Set to 0 to disable."
+        },
         "postLoadDelayMs": {
           "type": "integer",
           "minimum": 0,

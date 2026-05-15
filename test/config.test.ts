@@ -62,6 +62,7 @@ describe("loadConfig", () => {
     expect(config.timeout.launchMs).toBe(1111)
     expect(config.timeout.navigationSeconds).toBe(7)
     expect(config.timeout.extractMs).toBe(1234)
+    expect(config.timeout.challengeWaitMs).toBe(20_000)
     expect(config.cloakbrowser.headless).toBe(false)
     expect(config.cloakbrowser.locale).toBe("zh-TW")
   })
