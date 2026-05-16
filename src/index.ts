@@ -2,7 +2,7 @@ import type { Plugin } from "@opencode-ai/plugin"
 import { tool } from "@opencode-ai/plugin"
 import { fetchWithCloakBrowser, prepareCloakBrowser, type FetchLogEntry, type FetchNotification } from "./fetch.js"
 import { loadConfig } from "./config.js"
-import { WebFetchFormatSchema } from "./schema.js"
+import { webFetchFormats } from "./schema.js"
 
 export const server: Plugin = async ({ client, directory, worktree }) => {
   function notifyIn(targetDirectory: string) {
@@ -53,7 +53,7 @@ export const server: Plugin = async ({ client, directory, worktree }) => {
           "Fetch a web page using CloakBrowser stealth Chromium. Use this for JavaScript-rendered or anti-bot protected pages.",
         args: {
           url: tool.schema.string().url().describe("URL to fetch"),
-          format: WebFetchFormatSchema.optional().describe("Output format"),
+          format: tool.schema.enum(webFetchFormats).optional().describe("Output format"),
           timeout: tool.schema.number().int().positive().max(120).optional().describe("Timeout in seconds"),
         },
         async execute(args, context) {

@@ -1,6 +1,7 @@
 import { z } from "zod"
 
-export const WebFetchFormatSchema = z.enum(["markdown", "text", "html"])
+export const webFetchFormats = ["markdown", "text", "html"] as const
+export const WebFetchFormatSchema = z.enum(webFetchFormats)
 
 export const CloakbrowserConfigSchema = z
   .object({
