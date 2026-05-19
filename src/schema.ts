@@ -65,6 +65,14 @@ export const CloakbrowserConfigSchema = z
         autoUpdate: false,
         skipChecksum: false,
       }),
+    session: z
+      .object({
+        enabled: z.boolean().default(false),
+        cacheDir: z.string().min(1).nullable().optional(),
+      })
+      .default({
+        enabled: false,
+      }),
     output: z
       .object({
         includeTitle: z.boolean().default(true),
@@ -96,6 +104,9 @@ export const CloakbrowserConfigSchema = z
     environment: {
       autoUpdate: false,
       skipChecksum: false,
+    },
+    session: {
+      enabled: false,
     },
     output: {
       includeTitle: true,

@@ -191,6 +191,23 @@
         }
       }
     },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "default": {},
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enables persistent per-origin browser profiles for retaining challenge credentials and other site state."
+        },
+        "cacheDir": {
+          "type": ["string", "null"],
+          "minLength": 1,
+          "description": "Directory used for persistent session profiles. Defaults to the global OpenCode config directory under cloakfetch-sessions."
+        }
+      }
+    },
     "output": {
       "type": "object",
       "additionalProperties": false,

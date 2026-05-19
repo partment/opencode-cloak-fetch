@@ -47,11 +47,14 @@ describe("loadConfig", () => {
 
     await writeFile(path.join(global, "cloakfetch.json"), `{ "maxChars": 10, "cloakbrowser": { "headless": false } }`)
     await writeFile(path.join(global, "cloakfetch.jsonc"), `{ "maxChars": 20, "timeout": { "launchMs": 1111 } }`)
-    await writeFile(path.join(customDir, "cloakfetch.json"), `{ "timeout": { "navigationSeconds": 7 } }`)
+    await writeFile(path.join(customDir, "cloakfetch.json"), `{ "timeout": { "navigationSeconds": 7 }, "session": { "enabled": true } }`)
     await writeFile(path.join(customDir, "cloakfetch.jsonc"), `{ "timeout": { "extractMs": 1234 } }`)
     await writeFile(path.join(parentOpencode, "cloakfetch.jsonc"), `{ "cloakbrowser": { "locale": "ignored" } }`)
     await writeFile(path.join(nearestOpencode, "cloakfetch.json"), `{ "cloakbrowser": { "locale": "en-US" } }`)
-    await writeFile(path.join(nearestOpencode, "cloakfetch.jsonc"), `{ "maxChars": 30, "cloakbrowser": { "locale": "zh-TW" } }`)
+    await writeFile(
+      path.join(nearestOpencode, "cloakfetch.jsonc"),
+      `{ "maxChars": 30, "cloakbrowser": { "locale": "zh-TW" }, "session": { "cacheDir": "./sessions" } }`,
+    )
 
     process.env.XDG_CONFIG_HOME = xdg
     process.env.OPENCODE_CONFIG_DIR = customDir
@@ -65,6 +68,8 @@ describe("loadConfig", () => {
     expect(config.timeout.challengeWaitMs).toBe(20_000)
     expect(config.cloakbrowser.headless).toBe(false)
     expect(config.cloakbrowser.locale).toBe("zh-TW")
+    expect(config.session.enabled).toBe(true)
+    expect(config.session.cacheDir).toBe("./sessions")
   })
 
   test("creates a global cloakfetch.jsonc when no global config exists", async () => {

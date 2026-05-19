@@ -7,6 +7,7 @@ import { waitForChallengeCompletion } from "./challenges.js"
 import type { FetchOptions } from "./fetch-events.js"
 import { FetchOutputRenderer } from "./fetch-output.js"
 import type { CloakbrowserConfig, WebFetchFormat } from "./schema.js"
+import { createBrowserSession, type BrowserSession } from "./session.js"
 import { sleep, withTimeout } from "./timing.js"
 
 export type FetchArgs = {
@@ -29,36 +30,36 @@ export async function fetchWithCloakBrowser(args: FetchArgs, config: Cloakbrowse
   const timeoutMs = (args.timeout ?? config.timeout.navigationSeconds) * 1000
   const renderer = new FetchOutputRenderer(config)
   let browser: Browser | undefined
-
-  const restoreBinaryPath = cloakBrowserEnvironment.withBinaryPath(binaryPath)
-  const restoreConsole = cloakBrowserConsoleBridge.intercept(options)
-  try {
-    browser = await withTimeout(
-      launch({
-        headless: config.cloakbrowser.headless,
-        proxy: config.cloakbrowser.proxy,
-        args: config.cloakbrowser.args,
-        stealthArgs: config.cloakbrowser.stealthArgs,
-        timezone: config.cloakbrowser.timezone,
-        locale: config.cloakbrowser.locale,
-        geoip: config.cloakbrowser.geoip,
-        humanize: config.cloakbrowser.humanize,
-        humanPreset: config.cloakbrowser.humanPreset,
-        humanConfig: config.cloakbrowser.humanConfig,
-        launchOptions: {
-          ...config.cloakbrowser.launchOptions,
-          timeout: Math.min(config.timeout.launchMs, timeoutMs),
-        },
-      }),
-      Math.min(config.timeout.launchMs + 5_000, timeoutMs + 5_000),
-      "browser launch",
-    )
-  } finally {
-    restoreConsole()
-    restoreBinaryPath()
-  }
+  let session: BrowserSession | undefined
 
   try {
+    session = await createBrowserSession(args.url, config, options)
+
+    const restoreBinaryPath = cloakBrowserEnvironment.withBinaryPath(binaryPath)
+    const restoreConsole = cloakBrowserConsoleBridge.intercept(options)
+    try {
+      browser = await withTimeout(
+        launch({
+          headless: config.cloakbrowser.headless,
+          proxy: config.cloakbrowser.proxy,
+          args: config.cloakbrowser.args,
+          stealthArgs: config.cloakbrowser.stealthArgs,
+          timezone: config.cloakbrowser.timezone,
+          locale: config.cloakbrowser.locale,
+          geoip: config.cloakbrowser.geoip,
+          humanize: config.cloakbrowser.humanize,
+          humanPreset: config.cloakbrowser.humanPreset,
+          humanConfig: config.cloakbrowser.humanConfig,
+          launchOptions: browserLaunchOptions(config, timeoutMs, session),
+        }),
+        Math.min(config.timeout.launchMs + 5_000, timeoutMs + 5_000),
+        "browser launch",
+      )
+    } finally {
+      restoreConsole()
+      restoreBinaryPath()
+    }
+
     const page = await browser.newPage()
     page.setDefaultNavigationTimeout(timeoutMs)
     page.setDefaultTimeout(Math.min(config.timeout.extractMs, timeoutMs))
@@ -89,7 +90,16 @@ export async function fetchWithCloakBrowser(args: FetchArgs, config: Cloakbrowse
     ).catch(() => "")
     return renderer.truncate(renderer.renderText(format, title, finalUrl, text))
   } finally {
-    await withTimeout(browser.close(), config.timeout.closeMs, "browser close").catch(() => undefined)
+    if (browser) await withTimeout(browser.close(), config.timeout.closeMs, "browser close").catch(() => undefined)
+    await session?.release().catch(() => undefined)
+  }
+}
+
+function browserLaunchOptions(config: CloakbrowserConfig, timeoutMs: number, session?: BrowserSession) {
+  return {
+    ...config.cloakbrowser.launchOptions,
+    timeout: Math.min(config.timeout.launchMs, timeoutMs),
+    ...(session ? { userDataDir: session.userDataDir } : {}),
   }
 }
 

@@ -94,6 +94,10 @@ If neither `cloakfetch.json` nor `cloakfetch.jsonc` exists in the global OpenCod
     "downloadUrl": null,
     "skipChecksum": false
   },
+  "session": {
+    "enabled": false,
+    "cacheDir": null
+  },
   "output": {
     "includeTitle": true,
     "includeSource": true,
@@ -114,6 +118,7 @@ If neither `cloakfetch.json` nor `cloakfetch.jsonc` exists in the global OpenCod
 | `timeout` | `object` | see below | Timeout controls for browser launch, navigation, challenge waiting, extraction, and close. |
 | `cloakbrowser` | `object` | see below | Options passed to `cloakbrowser/puppeteer` launch. |
 | `environment` | `object` | see below | Environment variables used by CloakBrowser binary management. |
+| `session` | `object` | see below | Persistent browser profile controls for retaining challenge credentials and site state. |
 | `output` | `object` | see below | Formatting controls for text and markdown output. |
 
 ### `timeout`
@@ -163,6 +168,17 @@ These fields map to CloakBrowser environment variables before binary preparation
 | `cacheDir` | `string` or `null` | unset | `CLOAKBROWSER_CACHE_DIR` | CloakBrowser cache directory. Also stores the plugin's preparation lock. String value must be non-empty. |
 | `downloadUrl` | `string` or `null` | unset | `CLOAKBROWSER_DOWNLOAD_URL` | Custom browser binary download URL. String value must be non-empty. |
 | `skipChecksum` | `boolean` | `false` | `CLOAKBROWSER_SKIP_CHECKSUM` | Skips checksum verification when CloakBrowser supports it. |
+
+### `session`
+
+When enabled, the plugin creates a persistent Chromium profile per URL origin, such as `https://example.com`. This preserves cookies, localStorage, IndexedDB, and other browser profile state so the same site can reuse previously completed anti-bot challenges when the site still accepts those credentials.
+
+Profiles are opt-in because they store site session data on disk. Delete `cacheDir` to clear saved state. If `cloakbrowser.launchOptions.userDataDir` is set, that explicit profile path is used and this automatic per-origin profile cache is skipped.
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `enabled` | `boolean` | `false` | Enables persistent per-origin browser profiles. |
+| `cacheDir` | `string` or `null` | unset | Directory for persistent session profiles. Defaults to `cloakfetch-sessions` under the global OpenCode config directory. String value must be non-empty. |
 
 ### `output`
 
