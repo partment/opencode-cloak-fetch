@@ -2,7 +2,7 @@
 
 ## Commands
 
-- Use `pnpm@11.1.0`; CI uses Node 24 and `pnpm install --ignore-scripts`.
+- Use `pnpm@11.1.3`; CI uses Node 24 and `pnpm install --ignore-scripts`.
 - CI order: `pnpm run typecheck`, `pnpm run test`, `pnpm run build`.
 - Single test: `pnpm exec vitest run test/challenges.test.ts`. Focused test: `pnpm exec vitest run test/challenges.test.ts -t "low-confidence"`.
 - No lint or formatter script exists. Do not invent one.
