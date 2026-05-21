@@ -198,6 +198,18 @@ The registered `webfetch` tool accepts:
 | `format` | `string` | Optional output format. Defaults to `defaultFormat`. Allowed: `markdown`, `text`, `html`. |
 | `timeout` | `integer` | Optional per-call navigation timeout in seconds. `(1-120)` |
 
+## Star us on Github
+
+<p align="center">
+  <a href="https://www.star-history.com/#partment/opencode-cloak-fetch&type=date&legend=bottom-right">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&theme=dark&legend=bottom-right" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&legend=bottom-right" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&legend=bottom-right" />
+    </picture>
+  </a>
+</p>
+
 ## Development
 
 ```sh
