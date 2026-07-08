@@ -203,9 +203,9 @@ The registered `webfetch` tool accepts:
 <p align="center">
   <a href="https://www.star-history.com/#partment/opencode-cloak-fetch&type=date&legend=bottom-right">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&theme=dark&legend=bottom-right" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&legend=bottom-right" />
-      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=partment/opencode-cloak-fetch&type=date&legend=bottom-right" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=partment%2Fopencode-cloak-fetch&type=date&theme=dark&legend=bottom-right&sealed_token=b_3TR5-_wZLR4jqnK5zrIwbY_0TZKLLuNEi7PJ5KQDcCTy3UvdjrNUxLybd-4n9ekuAu7y1dfEvmXgzdrUGVKYe8ycn4L4lOEbuaupbR8M1mofa2cD7Gx2t9Taj9ZV3dW0dp0WE16xGp_E3p26a2EvpDcAbiYu4Ky1gZy9C8GrOHjSoY2m2Gv495wA7W" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=partment%2Fopencode-cloak-fetch&type=date&legend=bottom-right&sealed_token=b_3TR5-_wZLR4jqnK5zrIwbY_0TZKLLuNEi7PJ5KQDcCTy3UvdjrNUxLybd-4n9ekuAu7y1dfEvmXgzdrUGVKYe8ycn4L4lOEbuaupbR8M1mofa2cD7Gx2t9Taj9ZV3dW0dp0WE16xGp_E3p26a2EvpDcAbiYu4Ky1gZy9C8GrOHjSoY2m2Gv495wA7W" />
+      <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=partment%2Fopencode-cloak-fetch&type=date&legend=bottom-right&sealed_token=b_3TR5-_wZLR4jqnK5zrIwbY_0TZKLLuNEi7PJ5KQDcCTy3UvdjrNUxLybd-4n9ekuAu7y1dfEvmXgzdrUGVKYe8ycn4L4lOEbuaupbR8M1mofa2cD7Gx2t9Taj9ZV3dW0dp0WE16xGp_E3p26a2EvpDcAbiYu4Ky1gZy9C8GrOHjSoY2m2Gv495wA7W" />
     </picture>
   </a>
 </p>
